@@ -1,20 +1,33 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { StatusBar } from "expo-status-bar";
+import Home from "./screens/Home";
+import Map from "./screens/Map";
+import Header from "./ui/Header";
+import PlacesContextProvider from "./store/context";
+import { Colors } from "./utils/colors";
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <PlacesContextProvider>
+      <StatusBar style="light" backgroundColor="transparent" />
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            headerStyle: { backgroundColor: Colors.black },
+            headerTintColor: Colors.white,
+          }}
+        >
+          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen
+            name="Map"
+            component={Map}
+            options={{ header: () => <Header /> }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </PlacesContextProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
